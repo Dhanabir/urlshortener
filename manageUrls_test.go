@@ -1,6 +1,8 @@
 package main 
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestCreateShortUrl(t *testing.T) {
 	base62 := []rune{
@@ -22,8 +24,8 @@ func TestCreateShortUrl(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		if output:= CreateShortUrl(test.base, test.base62, test.id); output != test.expected {
-			t.Error("String expected: ", test.expected)
+		if output := CreateShortUrl(test.base, test.base62, test.id); output != test.expected {
+			t.Error("String expected: ", output, test.expected)
 		}
 	}
 }
@@ -42,5 +44,42 @@ func TestSaveAndSendUrl(t *testing.T) {
 		if SaveAndSendUrl(test.url) != output {
 			t.Error("String expected: ", output)
 		}
+	}
+}
+
+func TestLoadFile(t *testing.T) {
+	tests := []string {
+		"urls.txt",
+		"abc.txt",
+	}
+
+	for _, test := range tests {
+		if output:=LoadFile(test); output != nil {
+			t.Error("nil expected")
+		}	
+	}
+}
+
+func TestSaveJsonUrl(t *testing.T) {
+	urls := map[string]shortUrl {
+		"https://www.google.com" : shortUrl{
+			uniqueId: 908867566,
+			shortUrl: "gfT5resD",
+		},
+		"https://www.facebook.com" : shortUrl{
+			uniqueId: 1679898989,
+			shortUrl: "sall4yTgja",
+		},
+	}
+
+	tests := []string {
+		"urls.txt",
+		"abc.txt",
+	}
+
+	for _, test := range tests {
+		if output:=SaveJsonUrl(urls, test); output != nil {
+			t.Error("nil expected")
+		}	
 	}
 }
